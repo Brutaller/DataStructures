@@ -10,4 +10,6 @@ public interface TreeInterface {
     Node find(int val);
     void delete(int val);
     int size();
+    Node minimum();
+    Node maximum();
 }
