@@ -110,8 +110,8 @@ public class BinaryTree implements TreeInterface {
                     leftestInRight.getParent().setLeft(leftestInRight.getRight());
                     utilToDeleteMethod(leftestInRight, toDelete);
                 }
-                size--;
             }
+            size--;
         }
     }
 
