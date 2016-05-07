@@ -1,3 +1,5 @@
+package RedBlackTree;
+
 public class RedBlackNode<T extends Comparable<T>> {
 
     public static final int BLACK = 0;
