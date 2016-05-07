@@ -52,6 +52,6 @@ public class Node {
 
     @Override
     public String toString() {
-        return value+"["+lvl+"]";
+        return value+"";
     }
 }

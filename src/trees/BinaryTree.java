@@ -19,7 +19,6 @@ public class BinaryTree implements TreeInterface {
 
     @Override
     public void add(int node){
-        long start = System.currentTimeMillis();
         if (root == null){
             Node node1 = new Node();
             node1.setValue(node);
@@ -28,8 +27,6 @@ public class BinaryTree implements TreeInterface {
         } else {
             add(root, node);
         }
-        long time = System.currentTimeMillis() - start;
-        System.out.println("Время добавления элемента " + node + " = " + time + " мс");
     }
 
     @Override
@@ -59,43 +56,52 @@ public class BinaryTree implements TreeInterface {
     public void delete(int val) {
         Node toDelete = find(val);
         if (toDelete != null) {
-            if (toDelete.getRight() == null && toDelete.getLeft() == null) {
-                if (toDelete.getParent() == null) {
+            if (toDelete.getRight() == null && toDelete.getLeft() == null){
+                if (toDelete.getParent() == null){
                     root = null;
                 } else {
-                    if (toDelete.getParent().getValue() < toDelete.getValue()) {
-                        toDelete.getParent().setRight(null);
-                    }
-                    if (toDelete.getParent().getValue() > toDelete.getValue()) {
+                    if (toDelete.getParent().getValue() > toDelete.getValue()){
                         toDelete.getParent().setLeft(null);
+                    }
+                    if (toDelete.getParent().getValue() < toDelete.getValue()){
+                        toDelete.getParent().setRight(null);
                     }
                 }
             }
-
             if (toDelete.getLeft() != null && toDelete.getRight() == null) {
-                if (toDelete.getParent().getValue() < toDelete.getValue()){
-                    toDelete.getParent().setRight(toDelete.getLeft());
-                    toDelete.getLeft().setParent(toDelete.getParent());
-                }
-                if (toDelete.getParent().getValue() > toDelete.getValue()){
-                    toDelete.getParent().setLeft(toDelete.getLeft());
-                    toDelete.getLeft().setParent(toDelete.getParent());
+                if (toDelete.getParent() == null){
+                    root = toDelete.getLeft();
+                    root.setParent(null);
+                } else {
+                    if (toDelete.getParent().getValue() < toDelete.getValue()) {
+                        toDelete.getParent().setRight(toDelete.getLeft());
+                        toDelete.getLeft().setParent(toDelete.getParent());
+                    }
+                    if (toDelete.getParent().getValue() > toDelete.getValue()) {
+                        toDelete.getParent().setLeft(toDelete.getLeft());
+                        toDelete.getLeft().setParent(toDelete.getParent());
+                    }
                 }
             }
 
             if (toDelete.getLeft() == null && toDelete.getRight() != null) {
-                if (toDelete.getParent().getValue() < toDelete.getValue()){
-                    toDelete.getParent().setRight(toDelete.getRight());
-                    toDelete.getRight().setParent(toDelete.getParent());
-                }
-                if (toDelete.getParent().getValue() > toDelete.getValue()){
-                    toDelete.getParent().setLeft(toDelete.getRight());
-                    toDelete.getRight().setParent(toDelete.getParent());
+                if (toDelete.getParent() == null) {
+                    root = toDelete.getRight();
+                    root.setParent(null);
+                } else {
+                    if (toDelete.getParent().getValue() < toDelete.getValue()) {
+                        toDelete.getParent().setRight(toDelete.getRight());
+                        toDelete.getRight().setParent(toDelete.getParent());
+                    }
+                    if (toDelete.getParent().getValue() > toDelete.getValue()) {
+                        toDelete.getParent().setLeft(toDelete.getRight());
+                        toDelete.getRight().setParent(toDelete.getParent());
+                    }
                 }
             }
 
-            if (toDelete.getLeft() != null && toDelete.getRight() != null){
-                Node leftestInRight = leftestInRight(root.getRight());
+            if (toDelete.getLeft() != null && toDelete.getRight() != null) {
+                Node leftestInRight = min(toDelete.getRight());
                 if (leftestInRight.getRight() == null){
                     leftestInRight.getParent().setLeft(null);
                     utilToDeleteMethod(leftestInRight, toDelete);
@@ -104,8 +110,8 @@ public class BinaryTree implements TreeInterface {
                     leftestInRight.getParent().setLeft(leftestInRight.getRight());
                     utilToDeleteMethod(leftestInRight, toDelete);
                 }
+                size--;
             }
-            size--;
         }
     }
 
@@ -193,14 +199,6 @@ public class BinaryTree implements TreeInterface {
         }
         if (currentNode.getRight() != null) {
             getNode(sb, currentNode.getRight(), lvl + 1);
-        }
-    }
-
-    private Node leftestInRight(Node currentNode){
-        if (currentNode.getLeft() == null){
-            return currentNode;
-        } else {
-            return leftestInRight(currentNode.getLeft());
         }
     }
 
