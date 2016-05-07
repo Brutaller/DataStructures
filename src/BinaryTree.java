@@ -1,7 +1,3 @@
-package trees;
-
-import treeNodes.Node;
-
 /**
  * Created by Azat Zaripov on 06.05.16.
  */

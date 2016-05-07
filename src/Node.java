@@ -1,5 +1,3 @@
-package treeNodes;
-
 /**
  * Created by Azat Zaripov on 02.05.16.
  */
